@@ -9,7 +9,7 @@ import numpy as np
 inicial = (1, 0)
 intervalo = (0, 5)
 # n_interaçoes
-passos = 10000000
+passos = 100000
 
 
 # Obtendo valores de cada metodo
