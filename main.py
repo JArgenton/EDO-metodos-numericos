@@ -9,7 +9,8 @@ import numpy as np
 inicial = (1, 0)
 intervalo = (0, 5)
 # n_interaçoes
-passos = 10
+passos = 10000000
+
 
 # Obtendo valores de cada metodo
 Xval_Euler, Yval_Euler= Euler.Euler(inicial, intervalo, passos)

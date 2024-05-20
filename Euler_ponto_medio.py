@@ -19,11 +19,11 @@ def Euler_ponto_medio(coord_inicial: 'tuple[float, float]', intervalo: 'tuple[fl
         y = y_values[-1]
 
         k1 = f.derivada_funçao(x, y)
-        print(f'K1 Ponto M = {k1}')
+
         k2 = f.derivada_funçao(x + passo / 2, y + (passo / 2) * k1)
-        print(f'K2 Ponto M = {k2}')        
+   
         newy = y + passo * k2
-        print(f'newy Ponto M = {newy}')
+       
 
         x_values.append(x + passo)
         y_values.append(newy)
