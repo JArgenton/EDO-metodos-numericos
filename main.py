@@ -36,7 +36,7 @@ plt.plot(Xval_Original, Yval_original, label='funçao original', linestyle='dott
 plt.title("Métodos Numéricos")
 plt.xlabel("x")
 plt.ylabel("y")
-
+#teste
 # Legenda e grid
 plt.grid(True)
 plt.legend()
