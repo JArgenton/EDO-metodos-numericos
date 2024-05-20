@@ -21,11 +21,11 @@ def Euler_Melhorado(coord_inicial: 'tuple[float, float]', intervalo: 'tuple[floa
         y = y_values[-1]
 
         k1 = f.derivada_funçao(x, y)
-        print(f'K1 melhorado = {k1}')
+     
         k2 = f.derivada_funçao(x + passo, y + passo * k1)
-        print(f'K2 melhorado = {k2}')
+    
         newy = y + (passo / 2) * (k1 + k2)
-        print(f'newy melhorado = {newy}')
+    
 
         x_values.append(x + passo)
         y_values.append(newy)
