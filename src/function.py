@@ -1,17 +1,11 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import math
+import pandas as pd
+import os
 
 
 class Function:
-    inicial: 'tuple[float, float]'
-    y_origial: list
-    y_euler: list
-    y_melhorado: list
-    y_ponto_medio: list
-    n_passos: float
-    h: int  # numero de passos para funçao
-
     def __init__(self, inicial: 'tuple[float, float]', intervalo: 'tuple[float, float]', n_passos: int):
         self.inicial = inicial
         self.n_passos = n_passos
@@ -21,17 +15,35 @@ class Function:
         self.y_ponto_medio = [inicial[1]]
         self.h = (intervalo[1] - intervalo[0])/n_passos
 
+    def export_to_excel(self, arquivo: str):
+        """Exports the computed values to an Excel file"""
+        x_original, y_original = self.make_original(False)
+        x_euler, y_euler = self.make_euler(False)
+        x_melhorado, y_melhorado = self.make_euler_melhorado(False)
+        x_ponto_medio, y_ponto_medio = self.make_euler_ponto_medio(False)
+
+        data = {
+            "X": x_original,
+            "Original": y_original,
+            "Euler": y_euler,
+            "Euler Melhorado": y_melhorado,
+            "Euler Ponto Médio": y_ponto_medio
+        }
+
+        df = pd.DataFrame(data)
+        df.to_excel(arquivo, index=False, engine='openpyxl')
+        print(f"Data exported to {arquivo}")
+
     def plot_all(self):
-        """plots all graps for the numeric methods"""
+        """plots all graphs for the numeric methods"""
         self.make_original(True)
         self.make_euler(True)
         self.make_euler_melhorado(True)
         self.make_euler_ponto_medio(True)
-        self.plot_grap("metodos numericos")
+        self.plot_graph("Métodos Numéricos")
 
-    @staticmethod
-    def plot_grap(title: str):
-        """recives 2 list with the X and Y related values for a function, and plot it's grap"""
+    def plot_graph(self, title: str):
+        """receives 2 lists with the X and Y related values for a function, and plots its graph"""
         plt.title(title)
         plt.xlabel("x")
         plt.ylabel("y")
@@ -41,23 +53,23 @@ class Function:
 
     @staticmethod
     def derivada(t, y):
-        """return the numeric value for the derivate of a function in a point"""
+        """returns the numeric value for the derivative of a function at a point"""
         dy = (-y + t + 1)
         return dy
 
     @staticmethod
     def function(t):
-        """return the numeric value for Y of a function in a point """
+        """returns the numeric value for Y of a function at a point"""
         dy = t - (math.e**-t)
         return dy
 
     def euler(self, y: float, x: float):
-        """function returning next value for Euler's method """
+        """returns the next value for Euler's method"""
         newy = y + self.h * self.derivada(x, y)
         return newy
 
     def euler_melhorado(self, x: float, y: float):
-        """returns the next iteration for improved euler's method"""
+        """returns the next iteration for improved Euler's method"""
         k1 = self.derivada(x, y)
         x2 = x + self.h
         y2 = y + self.h * k1
@@ -66,7 +78,7 @@ class Function:
         return dy
 
     def euler_ponto_medio(self, x: float, y: float):
-        """returns the next iteration for  euler's middle point method"""
+        """returns the next iteration for Euler's midpoint method"""
         k1 = self.derivada(x, y)
         x2 = x + (self.h/2)
         y2 = y + (self.h/2) * k1
@@ -75,8 +87,8 @@ class Function:
         return dy
 
     def make_original(self, plot: bool):
-        """plota a funçao original """
-        x = [inicial[0]]
+        """plots the original function"""
+        x = [self.inicial[0]]
         y = self.y_origial
         h = self.h
         for _ in range(self.n_passos):
@@ -84,15 +96,15 @@ class Function:
             newy = self.function(x[-1])
             x.append(newx)
             y.append(newy)
-        if plot is True:
-            plt.plot(x, y, label='F(x, y)',
-                     linestyle='solid', marker='x', color='purple')
+        if plot:
+            plt.plot(x, y, label='F(x, y)', linestyle='solid',
+                     marker='x', color='purple')
         else:
             return x, y
 
     def make_euler(self, plot: bool):
-        """function building a list whit x an y values for Euler's mothod, it has a boolean to determine if the grap will be plotted or not"""
-        x = [inicial[0]]
+        """builds a list with x and y values for Euler's method; it has a boolean to determine if the graph will be plotted or not"""
+        x = [self.inicial[0]]
         y = self.y_euler
         h = self.h
         for _ in range(self.n_passos):
@@ -100,40 +112,40 @@ class Function:
             newy = self.euler(y[-1], x[-1])
             x.append(newx)
             y.append(newy)
-        if plot is True:
+        if plot:
             plt.plot(x, y, label='Método de Euler',
                      linestyle='--', marker='s', color='red')
         else:
             return x, y
 
     def make_euler_melhorado(self, plot: bool):
-        """function building a list whit x an y values for improved Euler's mothod, it has a boolean to determine if the grap will be plotted or not"""
-        x = [inicial[0]]
+        """builds a list with x and y values for improved Euler's method; it has a boolean to determine if the graph will be plotted or not"""
+        x = [self.inicial[0]]
         y = self.y_melhorado
         h = self.h
         for _ in range(self.n_passos):
             newx = x[-1] + h
-            newy = self.euler_melhorado(y[-1], x[-1])
+            newy = self.euler_melhorado(x[-1], y[-1])
             x.append(newx)
             y.append(newy)
-        if plot is True:
+        if plot:
             plt.plot(x, y, label='Método de Euler Melhorado',
                      linestyle='-', marker='o', color='blue')
         else:
             return x, y
 
     def make_euler_ponto_medio(self, plot: bool):
-        """function building a list whit x an y values for improved Euler's mothod, it has a boolean to determine if the grap will be plotted or not"""
-        x = [inicial[0]]
+        """builds a list with x and y values for Euler's midpoint method; it has a boolean to determine if the graph will be plotted or not"""
+        x = [self.inicial[0]]
         y = self.y_ponto_medio
         h = self.h
         for _ in range(self.n_passos):
             newx = x[-1] + h
-            newy = self.euler_ponto_medio(y[-1], x[-1])
+            newy = self.euler_ponto_medio(x[-1], y[-1])
             x.append(newx)
             y.append(newy)
-        if plot is True:
-            plt.plot(x, y, label='Método de Euler Ponto Medio',
+        if plot:
+            plt.plot(x, y, label='Método de Euler Ponto Médio',
                      linestyle=':', marker='v', color='green')
         else:
             return x, y
@@ -142,4 +154,5 @@ class Function:
 inicial = (1, 0)
 intervalo = (0, 5)
 Fx = Function(inicial, intervalo, 10)
-Fx.plot_all()
+
+Fx.export_to_excel("dados.xlsx")
