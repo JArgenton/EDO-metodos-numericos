@@ -9,7 +9,7 @@ import numpy as np
 inicial = (1, 0)
 intervalo = (0, 5)
 # n_interaçoes
-passos = 100000
+passos = 10
 
 
 # Obtendo valores de cada metodo
@@ -25,12 +25,12 @@ plt.figure("Métodos Numéricos", figsize=(8, 6))
 plt.plot(Xval_Euler, Yval_Euler, label='Método de Euler', linestyle='--', marker='s', color='red')
 
 # Plota grafico Euler_melhorado
-plt.plot(Xval_Euler_M, Yval_Euler_M, label='Método de Euler Melhorado', linestyle='-', marker='o', color='blue')
+#plt.plot(Xval_Euler_M, Yval_Euler_M, label='Método de Euler Melhorado', linestyle='-', marker='o', color='blue')
 
 # Plota grafico Euler Ponto Medio
-plt.plot(Xval_Euler_PM, Yval_Euler_PM, label='Método de Euler Ponto Medio', linestyle=':', marker='v', color='green')
+#plt.plot(Xval_Euler_PM, Yval_Euler_PM, label='Método de Euler Ponto Medio', linestyle=':', marker='v', color='green')
 
-plt.plot(Xval_Original, Yval_original, label='funçao original', linestyle='dotted', marker='x', color='purple')
+#plt.plot(Xval_Original, Yval_original, label='funçao original', linestyle='dotted', marker='x', color='purple')
 
 # título e rótulo
 plt.title("Métodos Numéricos")

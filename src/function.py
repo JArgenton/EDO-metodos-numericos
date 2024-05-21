@@ -4,9 +4,6 @@ import math
 
 
 class Function:
-
-    inicial: 'tuple[float, float]'
-    intervalo: 'tuple[float, float]'
     x_values: list
     y_euler: list
     y_melhorado: list
@@ -14,13 +11,14 @@ class Function:
     n_passos: float
     h: int  # numero de passos para funçao
 
-    def __init__(self, intervalo: 'tuple[float, float]', inicial: 'tuple[float, float]', n_passos: int):
-        self.intervalo = intervalo
+    def __init__(self, inicial: 'tuple[float, float]', intervalo: 'tuple[float, float]', n_passos: int):
+
+
         self.n_passos = n_passos
         self.x_values = [inicial[0]]
-        self.y_euler = inicial[1]
-        self.y_melhorado = inicial[1]
-        self.y_ponto_medio = inicial[1]
+        self.y_euler = [inicial[1]]
+        self.y_melhorado = [inicial[1]]
+        self.y_ponto_medio = [inicial[1]]
         self.h = (intervalo[1] - intervalo[0])/n_passos
 
     def plot_all(self):
@@ -42,31 +40,43 @@ class Function:
     @staticmethod
     def derivada(t, y):
         """return the numeric value for the derivate of a function in a point"""
-        return (-y + t + 1)
+        dy = (-y + t + 1)
+        return dy
+    
 
     @staticmethod
     def function(t):
         """return the numeric value for Y of a function in a point """
         return (t - math.e**-t)
 
-    def euler(self, y: float):
+    def euler(self, y: float, x: float):
         """function returning next value for Euler's method """
-        newy = y + self.h * self.derivada(self.x_values[-1], y)
+        newy = y + self.h * self.derivada(x, y)
         return newy
 
     def make_euler(self, plot: bool):
         """function building a list whit x an y values for Euler's mothod, it has a boolean to determine if the grap will be plotted"""
-        x = self.x_values[self.inicial[0]]
-        y = self.x_values[self.inicial[1]]
+        x = self.x_values
+        y = self.y_euler
         h = self.h
-
         for _ in range(self.n_passos):
             newx = x[-1] + h
-            newy = self.euler(y[-1])
+            newy = self.euler(y[-1], x[-1])
             x.append(newx)
             y.append(newy)
+            
+            
         if plot is True:
             plt.plot(x, y, label='Método de Euler',
                      linestyle='--', marker='s', color='red')
         else:
             return x, y
+
+
+
+
+inicial = (1, 0)
+intervalo = (0, 5)
+Fx = Function(inicial, intervalo, 10)
+Fx.make_euler(True)
+Fx.plot_grap('Euler')
