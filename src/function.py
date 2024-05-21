@@ -151,4 +151,3 @@ class Function:
                      linestyle=':', marker='v', color='green')
         else:
             return x, y
-

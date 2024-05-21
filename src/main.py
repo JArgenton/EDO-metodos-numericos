@@ -8,5 +8,6 @@ from function import Function as Fx
 
 inicial = (0, 1)
 intervalo = (0, 5)
-Funx = Fx(inicial, intervalo, 30)
+Funx = Fx(inicial, intervalo, 10)
 va.make_achavalores(Funx)
+
