@@ -17,6 +17,7 @@ class Function:
 
     def export_to_excel(self, arquivo: str):
         """Exports the computed values to an Excel file"""
+
         x_original, y_original = self.make_original(False)
         x_euler, y_euler = self.make_euler(False)
         x_melhorado, y_melhorado = self.make_euler_melhorado(False)
@@ -60,11 +61,12 @@ class Function:
     @staticmethod
     def function(t):
         """returns the numeric value for Y of a function at a point"""
-        dy = t - (math.e**-t)
+        dy = t + (math.e**-t)
         return dy
 
     def euler(self, y: float, x: float):
-        """returns the next value for Euler's method"""
+        """returns the next value for Euler's m
+        ethod"""
         newy = y + self.h * self.derivada(x, y)
         return newy
 
@@ -151,8 +153,8 @@ class Function:
             return x, y
 
 
-inicial = (1, 0)
+inicial = (0, 1)
 intervalo = (0, 5)
-Fx = Function(inicial, intervalo, 10)
+Fx = Function(inicial, intervalo, 30)
 
-Fx.export_to_excel("dados.xlsx")
+Fx.export_to_excel("tabela_ajustada.xlsx")
