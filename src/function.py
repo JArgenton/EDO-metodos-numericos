@@ -152,9 +152,3 @@ class Function:
         else:
             return x, y
 
-
-inicial = (0, 1)
-intervalo = (0, 5)
-Fx = Function(inicial, intervalo, 30)
-
-Fx.export_to_excel("tabela_ajustada.xlsx")
